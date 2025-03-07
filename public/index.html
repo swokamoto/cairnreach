@@ -4,11 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Strong Bond</title>
-    <script src="https://unpkg.com/htmx.org@1.9.6"></script>
+    <script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
 </head>
 <body>
     <h1>Welcome to Golem Buds </h1>
-    <button hx-get="/data" hx-target="#userList">Load Users</button>
-    <ul id="userList"></ul>
+
+    <section id="characterCreation">
+        <h2>Character Creation</h2>
+        <form hx-post="/createNewUser" hx-target="#create_button" hx-swap="outerHTML">
+            <input type="text" name="name" placeholder="Character Name" required>
+            <button id="create_button" type="submit">Create Character</button>
+        </form>
+
+        <button hx-get="/data" hx-target="#userList" hx-swap="innerHTML">Load Users</button>
+        <ul id="userList"></ul>
+    </section>
 </body>
 </html>

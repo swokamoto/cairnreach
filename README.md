@@ -1,4 +1,5 @@
-# golem
+# cairnreach
+A low-fantasy game where diverse clans unite, thrive, and protect nature amidst rivalry.
 
 To install dependencies:
 
