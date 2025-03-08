@@ -3,21 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Strong Bond</title>
+    <title>Lichenveil</title>
     <script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
 </head>
 <body>
-    <h1>Welcome to Golem Buds </h1>
-
-    <section id="characterCreation">
-        <h2>Character Creation</h2>
-        <form hx-post="/createNewUser" hx-target="#create_button" hx-swap="outerHTML">
-            <input type="text" name="name" placeholder="Character Name" required>
-            <button id="create_button" type="submit">Create Character</button>
-        </form>
-
-        <button hx-get="/data" hx-target="#userList" hx-swap="innerHTML">Load Users</button>
-        <ul id="userList"></ul>
+    <h1>Lichenveil </h1>
+    <h3>Unravel the secrets of a forgotten world.</h3>
+    <section id="mainContent">
+        <button onclick=login()>Login</button>
     </section>
+
+    <script>
+        function login() {
+            let userData = localStorage.getItem('lichenUserData');
+            if (userData) {
+                userData = JSON.parse(userData);
+                const queryParams = new URLSearchParams(userData).toString();
+                htmx.ajax('GET', `/dashboard?${queryParams}`, '#mainContent');
+            } else {
+                // If the user is not logged in, load the login form
+                htmx.ajax('get', '/loginForm', '#mainContent');
+            }
+        }
+
+        // listen for /dashboard events
+        docu
+
+
+
+    </script>
+
+    
 </body>
 </html>
