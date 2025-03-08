@@ -1,12 +1,11 @@
 import { Router } from "express";
-import { Database } from "bun:sqlite";
+import db from "../dbConnection.js";
 
-const router = Router();
-const db = new Database("database.sqlite");
+const accountsRouter = Router();
 
 
 // Serve the login form
-router.get("/loginForm", (req, res) => {
+accountsRouter.get("/loginForm", (req, res) => {
   let loginForm = `
     <section id="characterCreation">
       <form id="loginForm" hx-post="/createNewUser" hx-target="#mainContent" hx-swap="innerHTML">
@@ -38,7 +37,7 @@ router.get("/loginForm", (req, res) => {
 
 
 // Check for existing character
-router.post("/checkCharacter", (req, res) => {
+accountsRouter.post("/checkCharacter", (req, res) => {
   const { characterName } = req.body;
   const user = db.query(`
     SELECT users.id, users.name, Class.name AS class
@@ -56,7 +55,7 @@ router.post("/checkCharacter", (req, res) => {
 });
 
 // Create a new user
-router.post("/createNewUser", (req, res) => {
+accountsRouter.post("/createNewUser", (req, res) => {
   console.log(req.body);
   const { name, class_id } = req.body;
 
@@ -85,17 +84,14 @@ router.post("/createNewUser", (req, res) => {
 });
 
 function userDashboard(user) {
+  // const queryParams = new URLSearchParams(user).toString();
+  console.log(user);
   return `
     <section id="userDashboard">
       <h2>Welcome, ${user.name}!</h2>
       <p>Class: ${user.class}</p>
       <br>
-      <button hx-get="/inventoryTab" hx-target="#userContent" hx-swap="innerHTML">Inventory</button>
-      <button hx-get="/skillsTab" hx-target="#userContent" hx-swap="innerHTML">Skills</button>
-      <button hx-get="/clanTab" hx-target="#userContent" hx-swap="innerHTML">Clan</button>
-      <br>
-      <section id="userContent"></section>
-
+      <button onclick="setLocal(${user.id})" hx-get="/characterMain?id=${user.id}" hx-target="#mainContent" hx-swap="innerHTML">Let's Go!</button>
       <br>
       <button hx-get="/loginForm" hx-target="#mainContent" hx-swap="innerHTML">Logout</button>
     </section>
@@ -103,4 +99,5 @@ function userDashboard(user) {
 }
 
 
-export default router;
+
+export default accountsRouter;

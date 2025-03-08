@@ -15,21 +15,19 @@
 
     <script>
         function login() {
-            let userData = localStorage.getItem('lichenUserData');
-            if (userData) {
-                userData = JSON.parse(userData);
-                const queryParams = new URLSearchParams(userData).toString();
-                htmx.ajax('GET', `/dashboard?${queryParams}`, '#mainContent');
+            let userId = localStorage.getItem('lichenUserData');
+            console.log(userId);
+            if (userId) {
+                htmx.ajax('GET', `/characterMain?id=${userId}`, '#mainContent');
             } else {
                 // If the user is not logged in, load the login form
                 htmx.ajax('get', '/loginForm', '#mainContent');
             }
         }
 
-        // listen for /dashboard events
-        docu
-
-
+        function setLocal(userData) {
+            localStorage.setItem('lichenUserData', JSON.stringify(userData));
+        }
 
     </script>
 
